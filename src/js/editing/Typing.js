@@ -42,14 +42,14 @@ export default class Typing {
    *   1 - Break the first blockquote in the ancestors list
    *   2 - Break all blockquotes, so that the new paragraph is not quoted (this is the default)
    */
-  insertParagraph(editable, rng) {
+  insertParagraph(editable, rng, singleSpace=false) {
     rng = rng || range.create(editable);
 
     // deleteContents on range.
     rng = rng.deleteContents();
 
     // Wrap range if it needs to be wrapped by paragraph
-    rng = rng.wrapBodyInlineWithPara();
+    rng = rng.wrapBodyInlineWithPara(singleSpace);
 
     // finding paragraph
     const splitRoot = dom.ancestor(rng.sc, dom.isPara);
@@ -72,7 +72,7 @@ export default class Typing {
 
         if (blockquote) {
           // We're inside a blockquote and options ask us to break it
-          nextPara = $(dom.emptyPara)[0];
+          nextPara = singleSpace ? $(dom.emptyDiv)[0] : $(dom.emptyPara)[0];
           // If the split is right before a <br>, remove it so that there's no "empty line"
           // after the split in the new blockquote created
           if (dom.isRightEdgePoint(rng.getStartPoint()) && dom.isBR(rng.sc.nextSibling)) {
@@ -97,14 +97,14 @@ export default class Typing {
 
           // replace empty heading, pre or custom-made styleTag with P tag
           if ((dom.isHeading(nextPara) || dom.isPre(nextPara) || dom.isCustomStyleTag(nextPara)) && dom.isEmpty(nextPara)) {
-            nextPara = dom.replace(nextPara, 'p');
+            nextPara = dom.replace(nextPara, singleSpace ? 'p' : 'div');
           }
         }
       }
     // no paragraph: insert empty paragraph
     } else {
       const next = rng.sc.childNodes[rng.so];
-      nextPara = $(dom.emptyPara)[0];
+      nextPara = singleSpace ? $(dom.emptyDiv)[0] : $(dom.emptyPara)[0];
       if (next) {
         rng.sc.insertBefore(nextPara, next);
       } else {

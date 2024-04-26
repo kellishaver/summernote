@@ -96,7 +96,7 @@ export default class Editor {
     }
 
     this.insertParagraph = this.wrapCommand(() => {
-      this.typing.insertParagraph(this.editable);
+      this.typing.insertParagraph(this.editable, null, this.options.forceSingleSpacing);
     });
 
     this.insertOrderedList = this.wrapCommand(() => {
@@ -405,7 +405,7 @@ export default class Editor {
     }
 
     // init content before set event
-    this.$editable.html(dom.html(this.$note) || dom.emptyPara);
+    this.$editable.html(dom.html(this.$note) || this.options.forceSingleSpacing ? dom.emptyDiv : dom.emptyPara);
 
     this.$editable.on(env.inputEventName, func.debounce(() => {
       this.context.triggerEvent('change', this.$editable.html(), this.$editable);

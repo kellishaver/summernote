@@ -122,6 +122,7 @@ $.summernote = $.extend($.summernote, {
     width: null,
     height: null,
     linkTargetBlank: true,
+    forceSingleSpacing: false,
 
     focus: false,
     tabDisable: false,

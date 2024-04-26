@@ -495,9 +495,9 @@ class WrappedRange {
    *
    * @return {WrappedRange}
    */
-  wrapBodyInlineWithPara() {
+  wrapBodyInlineWithPara(singleSpace=false) {
     if (dom.isBodyContainer(this.sc) && dom.isEmpty(this.sc)) {
-      this.sc.innerHTML = dom.emptyPara;
+      this.sc.innerHTML = singleSpace ? dom.emptyDiv : dom.emptyPara;
       return new WrappedRange(this.sc.firstChild, 0, this.sc.firstChild, 0);
     }
 
