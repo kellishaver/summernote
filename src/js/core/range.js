@@ -530,7 +530,7 @@ class WrappedRange {
 
       // wrap with paragraph
       if (inlineSiblings.length) {
-        const para = dom.wrap(lists.head(inlineSiblings), 'p');
+        const para = dom.wrap(lists.head(inlineSiblings), singleSpace ? 'div' : 'p');
         dom.appendChildNodes(para, lists.tail(inlineSiblings));
       }
     }

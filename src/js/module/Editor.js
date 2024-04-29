@@ -405,7 +405,8 @@ export default class Editor {
     }
 
     // init content before set event
-    this.$editable.html(dom.html(this.$note) || this.options.forceSingleSpacing ? dom.emptyDiv : dom.emptyPara);
+    let initialWrapper = this.options.forceSingleSpacing ? dom.emptyDiv : dom.eptyPara;
+    this.$editable.html(dom.html(this.$note) || initialWrapper);
 
     this.$editable.on(env.inputEventName, func.debounce(() => {
       this.context.triggerEvent('change', this.$editable.html(), this.$editable);
