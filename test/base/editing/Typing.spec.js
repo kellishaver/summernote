@@ -21,12 +21,29 @@ describe('base:editing.Style', () => {
 
   describe('base:editing.Typing', () => {
     describe('insertParagraph', () => {
+      describe('single spacing', () => {
+        var $editable;
+
+        function check(html) {
+          expect($editable.html()).to.equalsIgnoreCase(html);
+        };
+
+        beforeEach(() => {
+          $editable = $('<div class="note-editable"><div>Part1</div></div>');
+        });
+
+        it('should insert new div instead of a p', () => {
+          typing(0).insertParagraph($editable, range.create($($editable)[0].firstChild, 6), true);
+          check('<div>Part1</div><div><br></div>');
+        });
+      });
+
       describe('blockquote breaking support', () => {
         var $editable;
 
         function check(html) {
           expect($editable.html()).to.equalsIgnoreCase(html);
-        }
+        };
 
         beforeEach(() => {
           $editable = $('<div class="note-editable"><blockquote id="1">Part1<blockquote id="2">Part2.1<br>Part2.2</blockquote>Part3</blockquote></div>');
